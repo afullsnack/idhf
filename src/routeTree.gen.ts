@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './app/__root'
 import { Route as PayloadRouteImport } from './app/_payload'
 import { Route as FrontendRouteImport } from './app/_frontend'
 import { Route as FrontendIndexRouteImport } from './app/_frontend/index'
+import { Route as FrontendPortalRouteImport } from './app/_frontend/portal'
+import { Route as FrontendDonationRouteImport } from './app/_frontend/donation'
 import { Route as PayloadAdminIndexRouteImport } from './app/_payload/admin.index'
 import { Route as PayloadApiSplatRouteImport } from './app/_payload/api.$'
 import { Route as PayloadAdminSplatRouteImport } from './app/_payload/admin.$'
@@ -27,6 +29,16 @@ const FrontendRoute = FrontendRouteImport.update({
 const FrontendIndexRoute = FrontendIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => FrontendRoute,
+} as any)
+const FrontendPortalRoute = FrontendPortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => FrontendRoute,
+} as any)
+const FrontendDonationRoute = FrontendDonationRouteImport.update({
+  id: '/donation',
+  path: '/donation',
   getParentRoute: () => FrontendRoute,
 } as any)
 const PayloadAdminIndexRoute = PayloadAdminIndexRouteImport.update({
@@ -47,12 +59,16 @@ const PayloadAdminSplatRoute = PayloadAdminSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof FrontendIndexRoute
+  '/donation': typeof FrontendDonationRoute
+  '/portal': typeof FrontendPortalRoute
   '/admin/$': typeof PayloadAdminSplatRoute
   '/api/$': typeof PayloadApiSplatRoute
   '/admin/': typeof PayloadAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof FrontendIndexRoute
+  '/donation': typeof FrontendDonationRoute
+  '/portal': typeof FrontendPortalRoute
   '/admin/$': typeof PayloadAdminSplatRoute
   '/api/$': typeof PayloadApiSplatRoute
   '/admin': typeof PayloadAdminIndexRoute
@@ -61,6 +77,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_frontend': typeof FrontendRouteWithChildren
   '/_payload': typeof PayloadRouteWithChildren
+  '/_frontend/donation': typeof FrontendDonationRoute
+  '/_frontend/portal': typeof FrontendPortalRoute
   '/_frontend/': typeof FrontendIndexRoute
   '/_payload/admin/$': typeof PayloadAdminSplatRoute
   '/_payload/api/$': typeof PayloadApiSplatRoute
@@ -68,13 +86,15 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin/$' | '/api/$' | '/admin/'
+  fullPaths: '/' | '/donation' | '/portal' | '/admin/$' | '/api/$' | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin/$' | '/api/$' | '/admin'
+  to: '/' | '/donation' | '/portal' | '/admin/$' | '/api/$' | '/admin'
   id:
     | '__root__'
     | '/_frontend'
     | '/_payload'
+    | '/_frontend/donation'
+    | '/_frontend/portal'
     | '/_frontend/'
     | '/_payload/admin/$'
     | '/_payload/api/$'
@@ -109,6 +129,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FrontendIndexRouteImport
       parentRoute: typeof FrontendRoute
     }
+    '/_frontend/portal': {
+      id: '/_frontend/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof FrontendPortalRouteImport
+      parentRoute: typeof FrontendRoute
+    }
+    '/_frontend/donation': {
+      id: '/_frontend/donation'
+      path: '/donation'
+      fullPath: '/donation'
+      preLoaderRoute: typeof FrontendDonationRouteImport
+      parentRoute: typeof FrontendRoute
+    }
     '/_payload/admin/': {
       id: '/_payload/admin/'
       path: '/admin'
@@ -134,10 +168,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface FrontendRouteChildren {
+  FrontendDonationRoute: typeof FrontendDonationRoute
+  FrontendPortalRoute: typeof FrontendPortalRoute
   FrontendIndexRoute: typeof FrontendIndexRoute
 }
 
 const FrontendRouteChildren: FrontendRouteChildren = {
+  FrontendDonationRoute: FrontendDonationRoute,
+  FrontendPortalRoute: FrontendPortalRoute,
   FrontendIndexRoute: FrontendIndexRoute,
 }
 

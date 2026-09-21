@@ -1,5 +1,6 @@
 import { withPayloadRoot } from '@payloadcms/tanstack-start/client'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
+import globalStyles from "@/global.css?url"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -16,7 +17,11 @@ export const Route = createRootRoute({
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto+Mono:wght@100..700&display=swap',
-      },
+			},
+			{
+				rel: 'stylesheet',
+				href: globalStyles
+      }
     ],
   }),
   // Single Payload integration touch point: `withPayloadRoot` renders the
@@ -36,7 +41,7 @@ export const Route = createRootRoute({
 // cascade is deterministic regardless of stylesheet load order. This shell is
 // frontend-only (Payload renders its own document on `/admin`), so it does not
 // affect the admin UI.
-const layerOrder = '@layer base, properties, utilities, payload, payload-default, tailwind;'
+const layerOrder = '@layer properties, utilities, payload, payload-default, base, tailwind;'
 
 function FrontendRoot({ children }: { children: React.ReactNode }) {
   return (

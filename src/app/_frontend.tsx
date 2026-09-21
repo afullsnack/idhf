@@ -1,3 +1,4 @@
+import { Main } from '@/components/craft'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_frontend')({
@@ -6,8 +7,8 @@ export const Route = createFileRoute('/_frontend')({
 
 function FrontendLayout() {
   return (
-    <div data-frontend="" className="font-sans">
+    <Main className="font-sans">
       <Outlet />
-    </div>
+    </Main>
   )
 }

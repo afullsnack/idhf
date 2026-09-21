@@ -5,6 +5,7 @@ import rsc from '@vitejs/plugin-rsc'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
+import tailwindcss from "@tailwindcss/vite"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -12,7 +13,8 @@ export default defineConfig(
   withPayload(
     ({ pluginOptions }) => ({
       plugins: [
-        rsc(pluginOptions.rsc),
+				rsc(pluginOptions.rsc),
+        tailwindcss(),
         tanstackStart(pluginOptions.tanstackStart),
         viteReact(pluginOptions.react),
       ],
@@ -38,7 +40,10 @@ export default defineConfig(
       server: {
         port: 3000,
         warmup: {
-          clientFiles: [
+					clientFiles: [
+						'./src/app/_frontend/index.tsx',
+						'./src/app/_frontend/donation.tsx',
+						'./src/app/_frontend/portal.tsx',
             './src/app/__root.tsx',
             './src/app/_payload.tsx',
             './src/app/_payload/admin.index.tsx',
