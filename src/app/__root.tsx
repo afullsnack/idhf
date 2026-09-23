@@ -1,9 +1,15 @@
+import { Layout } from '@/components/craft'
 import { withPayloadRoot } from '@payloadcms/tanstack-start/client'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
-import globalStyles from "@/global.css?url"
 
 export const Route = createRootRoute({
   head: () => ({
+    meta: [
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1',
+      },
+    ],
     links: [
       {
         rel: 'preconnect',
@@ -19,9 +25,9 @@ export const Route = createRootRoute({
         href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto+Mono:wght@100..700&display=swap',
 			},
 			{
-				rel: 'stylesheet',
-				href: globalStyles
-      }
+				rel: "icon",
+				href: "/logo.png"
+			}
     ],
   }),
   // Single Payload integration touch point: `withPayloadRoot` renders the
@@ -45,7 +51,7 @@ const layerOrder = '@layer properties, utilities, payload, payload-default, base
 
 function FrontendRoot({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <Layout>
       <head>
         {/*
           A hoistable style (has `href` + `precedence`) so React manages it as a
@@ -54,15 +60,15 @@ function FrontendRoot({ children }: { children: React.ReactNode }) {
           in <head> — guaranteeing the layer order is parsed before any CSS that
           declares those layers.
         */}
-        <style href="frontend-layer-order" precedence="frontend-layer-order">
+        {/*<style href="frontend-layer-order" precedence="frontend-layer-order">
           {layerOrder}
-        </style>
+        </style>*/}
         <HeadContent />
       </head>
       <body>
         {children}
         <Scripts />
       </body>
-    </html>
+    </Layout>
   )
 }

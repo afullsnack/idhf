@@ -1,5 +1,6 @@
 import { withPayload } from '@payloadcms/tanstack-start'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import { nitro } from 'nitro/vite'
 import viteReact from '@vitejs/plugin-react'
 import rsc from '@vitejs/plugin-rsc'
 import path from 'node:path'
@@ -11,11 +12,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig(
   withPayload(
-    ({ pluginOptions }) => ({
+    ({ pluginOptions, env }) => ({
       plugins: [
 				rsc(pluginOptions.rsc),
         tailwindcss(),
         tanstackStart(pluginOptions.tanstackStart),
+        nitro({ preset: env.command === 'serve' ? 'nitro-dev' : undefined }),
         viteReact(pluginOptions.react),
       ],
       resolve: {

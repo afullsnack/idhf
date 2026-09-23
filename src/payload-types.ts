@@ -71,6 +71,10 @@ export interface Config {
     media: Media;
     folders: Folder;
     tags: Tag;
+    'hero-slides': HeroSlide;
+    inductees: Inductee;
+    artifacts: Artifact;
+    events: Event;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +86,10 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     folders: FoldersSelect<false> | FoldersSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    'hero-slides': HeroSlidesSelect<false> | HeroSlidesSelect<true>;
+    inductees: InducteesSelect<false> | InducteesSelect<true>;
+    artifacts: ArtifactsSelect<false> | ArtifactsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -196,6 +204,134 @@ export interface Tag {
   _h_titlePath?: string | null;
 }
 /**
+ * Slides for the vertical hero carousel on the landing page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-slides".
+ */
+export interface HeroSlide {
+  id: number;
+  /**
+   * Short overline label shown above the title, e.g. "A Sanctuary of Cultural Pride".
+   */
+  eyebrow?: string | null;
+  /**
+   * The main headline for this slide.
+   */
+  title: string;
+  /**
+   * Supporting description rendered under the title.
+   */
+  description?: string | null;
+  /**
+   * Buttons rendered for this slide. The first one displays as the primary action.
+   */
+  callToActions?:
+    | {
+        label: string;
+        href: string;
+        variant?: ('primary' | 'secondary' | 'ghost' | 'link') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Background image for the slide. Falls back to a branded gradient if empty.
+   */
+  image?: (number | null) | Media;
+  /**
+   * Sort order within the carousel. Lower numbers appear first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Individuals honored in the Idoma Hall of Fame. Photos feed the hero collage on the landing page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inductees".
+ */
+export interface Inductee {
+  id: number;
+  name: string;
+  category?: ('Culture' | 'Leadership' | 'Innovation' | 'Community Development') | null;
+  /**
+   * Year of induction.
+   */
+  year?: number | null;
+  /**
+   * Portrait photo used in the collage.
+   */
+  photo: number | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Cultural artifacts preserved in the digital archive. Photos feed the collage on the landing page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artifacts".
+ */
+export interface Artifact {
+  id: number;
+  name: string;
+  /**
+   * Historical period or provenance of the artifact.
+   */
+  era?: string | null;
+  /**
+   * Image of the artifact used in the collage.
+   */
+  image: number | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Upcoming events and programs. Featured events display as the headline card on the landing page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  /**
+   * Used for the category chip displayed on the event card.
+   */
+  category?: ('Gala' | 'Education' | 'Festival' | 'Technology' | 'Community') | null;
+  /**
+   * Mark to feature this event as the headline card. Falls back to the earliest event if none is marked.
+   */
+  featured?: boolean | null;
+  /**
+   * Short blurb shown on the event card.
+   */
+  description?: string | null;
+  date: string;
+  /**
+   * Location of the event, e.g. "Otukpo Cultural Center".
+   */
+  venue?: string | null;
+  /**
+   * Expected attendance, e.g. "500+ Expected".
+   */
+  expected?: string | null;
+  /**
+   * Optional link for the "Register" button. Falls back to "/events".
+   */
+  registerUrl?: string | null;
+  /**
+   * Background image for the event card. Falls back to a branded gradient if empty.
+   */
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -234,6 +370,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'hero-slides';
+        value: number | HeroSlide;
+      } | null)
+    | ({
+        relationTo: 'inductees';
+        value: number | Inductee;
+      } | null)
+    | ({
+        relationTo: 'artifacts';
+        value: number | Artifact;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -345,6 +497,71 @@ export interface TagsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-slides_select".
+ */
+export interface HeroSlidesSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  callToActions?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        variant?: T;
+        id?: T;
+      };
+  image?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inductees_select".
+ */
+export interface InducteesSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  year?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artifacts_select".
+ */
+export interface ArtifactsSelect<T extends boolean = true> {
+  name?: T;
+  era?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  featured?: T;
+  description?: T;
+  date?: T;
+  venue?: T;
+  expected?: T;
+  registerUrl?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -400,7 +617,7 @@ export interface CollectionsWidget {
 export interface CollectionQueryWidget {
   data?: {
     title?: string | null;
-    relatedCollection: 'users' | 'media' | 'folders' | 'tags';
+    relatedCollection: 'users' | 'media' | 'folders' | 'tags' | 'hero-slides' | 'inductees' | 'artifacts' | 'events';
     where?:
       | {
           [k: string]: unknown;
@@ -422,7 +639,8 @@ export interface CollectionQueryWidget {
  */
 export interface ActivityWidget {
   data?: {
-    excludedCollections?: ('users' | 'media' | 'folders' | 'tags')[] | null;
+    excludedCollections?:
+      ('users' | 'media' | 'folders' | 'tags' | 'hero-slides' | 'inductees' | 'artifacts' | 'events')[] | null;
   };
   width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
 }

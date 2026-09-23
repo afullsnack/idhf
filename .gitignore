@@ -2,6 +2,7 @@
 *.db
 /dist
 .output
+/.wrangler
 
 # dependencies
 /node_modules

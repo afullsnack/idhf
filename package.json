@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" payload build",
+    "build:cf": "pnpm build",
+    "check:cf": "pnpm build:cf && wrangler pages dev dist --port 8788",
+    "deploy:cf": "pnpm build:cf && wrangler pages deploy dist --project-name=idoma-hof",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation vite dev",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation vite dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
@@ -29,6 +32,7 @@
     "@payloadcms/tanstack-start": "4.0.0-canary.17",
     "@payloadcms/ui": "4.0.0-canary.17",
     "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-query": "^5.103.2",
     "@tanstack/react-router": "1.170.16",
     "@tanstack/react-start": "1.168.26",
     "class-variance-authority": "^0.7.1",
@@ -36,9 +40,11 @@
     "cn": "^0.3.0",
     "cross-env": "10.1.0",
     "dotenv": "16.4.7",
+    "embla-carousel-react": "^8.6.0",
     "graphql": "^16.8.1",
     "lucide-react": "^1.47.0",
     "motion": "^13.4.0",
+    "nitro": "npm:nitro-nightly@latest",
     "payload": "4.0.0-canary.17",
     "react": "19.2.6",
     "react-dom": "19.2.6",
@@ -65,7 +71,8 @@
     "tsx": "4.22.4",
     "typescript": "6.0.3",
     "vite-tsconfig-paths": "6.0.5",
-    "vitest": "4.1.6"
+    "vitest": "4.1.6",
+    "wrangler": "^4.136.3"
   },
   "engines": {
     "node": ">=24.15.0",

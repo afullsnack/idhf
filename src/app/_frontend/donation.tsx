@@ -1,5 +1,4 @@
-import { Container, Main, Section } from '@/components/craft'
-import Pricing from '@/components/pricing'
+import Donate from '@/components/donate'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_frontend/donation')({
@@ -7,17 +6,11 @@ export const Route = createFileRoute('/_frontend/donation')({
 })
 
 function RouteComponent() {
-	if (false) {
-		return (
-			<Pricing />
-		)
-	}
-
   return (
-    <Section className='flex items-center justify-center'>
-      <Container className="">
-        <Pricing />
-      </Container>
-    </Section>
+    <section className="flex items-center justify-center py-8 md:py-12">
+      <div className="mx-auto w-full max-w-4xl px-4 sm:px-8">
+        <Donate />
+      </div>
+    </section>
   )
 }
