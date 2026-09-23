@@ -2,14 +2,6 @@
 
 This template comes configured with the bare minimum to get started on anything you need.
 
-## Quick start
-
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
-
-## Quick Start - local setup
-
-To spin up this template locally, follow these steps:
-
 ### Clone
 
 After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
