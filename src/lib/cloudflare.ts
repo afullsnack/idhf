@@ -1,3 +1,3 @@
-export function isCloudflarePages() {
-  return process.env.CF_PAGES === '1'
+export function isCloudflareWorkers() {
+  return process.env.CF_WORKER === '1'
 }

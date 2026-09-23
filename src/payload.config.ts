@@ -5,7 +5,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-import { isCloudflarePages } from '@/lib/cloudflare'
+import { isCloudflareWorkers } from '@/lib/cloudflare'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Folders } from './collections/Folders'
@@ -15,9 +15,6 @@ import { Inductees } from './collections/Inductees'
 import { Artifacts } from './collections/Artifacts'
 import { Events } from './collections/Events'
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
-
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -26,13 +23,14 @@ export default buildConfig({
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    outputFile: './payload-types.ts',
   },
-  db: isCloudflarePages()
+  db: isCloudflareWorkers()
     ? (undefined as never)
     : (await import('@payloadcms/db-sqlite')).sqliteAdapter({
         client: {
-          url: process.env.DATABASE_URL || '',
+					url: process.env.DATABASE_URL || '',
+	        authToken: process.env.DATABASE_AUTH_TOKEN || ''
         },
       }),
   sharp,

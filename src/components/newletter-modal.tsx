@@ -44,8 +44,9 @@ export default function NewsLetterModal({ onSubscribe }: INewsLetterModalProps) 
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Join the Newsletter</DialogTitle>
-					<DialogDescription>
+					<img src="/logo.png" className="object-contain size-12" />
+					<DialogTitle className="text-2xl font-semibold">Join the Newsletter</DialogTitle>
+					<DialogDescription className="text-lg">
 						Subscribe to our newsletter for updates on events, new inductees, and cultural programs.
 					</DialogDescription>
 				</DialogHeader>
@@ -62,7 +63,7 @@ export default function NewsLetterModal({ onSubscribe }: INewsLetterModalProps) 
 							required
 						/>
 						<InputGroupAddon align="inline-end">
-							<InputGroupButton variant="ghost" size="sm" type="submit" disabled={subscribe.isPending}>
+							<InputGroupButton variant="ghost" size="sm" type="submit" className="text-red-400" disabled={subscribe.isPending}>
 								{subscribe.isPending ? "Subscribing…" : "Subscribe"}
 							</InputGroupButton>
 						</InputGroupAddon>

@@ -16,9 +16,8 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# nitro
+/.output/
 
 # production
 /build
@@ -40,7 +39,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 .env
 

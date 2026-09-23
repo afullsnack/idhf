@@ -7,10 +7,10 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" payload build",
     "build:cf": "pnpm build",
-    "check:cf": "pnpm build:cf && wrangler pages dev dist --port 8788",
-    "deploy:cf": "pnpm build:cf && wrangler pages deploy dist --project-name=idoma-hof",
+    "check:cf": "pnpm build:cf && wrangler dev dist --port 8788",
+    "deploy:cf": "pnpm build:cf && nitro deploy --prebuilt",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation vite dev",
-    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation vite dev",
+    "devsafe": "rm -rf node_modules/.nitro && cross-env NODE_OPTIONS=--no-deprecation vite dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",

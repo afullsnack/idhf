@@ -46,7 +46,7 @@ const mainNavList = [
 export default function MainNavigation() {
   return (
     <Section className="m-0! p-0! flex! items-center! justify-center! w-full max-h-14">
-      <Container className="m-0! px-0! p-0! flex items-center justify-between mx-0! w-full h-full">
+      <Container className="m-0! px-0! p-0! flex items-center justify-between md:justify-center gap-12 mx-0! w-full h-full">
         <Logo />
         <header className="hidden max-w-max md:block">
           <NavigationMenu>
@@ -59,8 +59,9 @@ export default function MainNavigation() {
         </header>
 
         <Button
-          className="ml-4 hidden text-white! md:inline-flex"
-          render={<a href="/donation" className="text-white" />}
+          className="ml-4 hidden text-white! md:inline-flex animate-none sm:animate-bounce"
+					render={<a href="/donation" className="text-white no-underline!" />}
+          variant="default"
         >
           Donate
         </Button>
