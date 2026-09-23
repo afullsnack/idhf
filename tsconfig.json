@@ -5,7 +5,6 @@
       "DOM.Iterable",
       "ES2022"
     ],
-    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
