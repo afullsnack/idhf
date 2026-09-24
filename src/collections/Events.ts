@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { admins } from '../access/admins'
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -14,7 +15,11 @@ export const Events: CollectionConfig = {
   },
   defaultSort: 'date',
   access: {
+    admin: admins,
+    create: admins,
     read: () => true,
+    update: admins,
+    delete: admins,
   },
   versions: {
     drafts: true,

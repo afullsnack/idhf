@@ -131,6 +131,18 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  /**
+   * Full name shown on the profile.
+   */
+  name?: string | null;
+  /**
+   * Profile image shown on the account page.
+   */
+  profileImage?: (number | null) | Media;
+  /**
+   * Admins manage the whole dashboard; users only see their own profile.
+   */
+  role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -393,6 +405,9 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  profileImage?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { admins } from '../access/admins'
 
 export const HeroSlides: CollectionConfig = {
   slug: 'hero-slides',
@@ -14,7 +15,11 @@ export const HeroSlides: CollectionConfig = {
   },
   defaultSort: 'order',
   access: {
+    admin: admins,
+    create: admins,
     read: () => true,
+    update: admins,
+    delete: admins,
   },
   versions: {
     drafts: true,

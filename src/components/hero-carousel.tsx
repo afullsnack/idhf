@@ -352,7 +352,8 @@ function SlideCopy({ slide, index, count }: { slide: Slide; index: number; count
         <motion.div variants={copyLineVariants} className="flex flex-wrap items-center gap-3.5">
           {primary ? (
             <Button
-              size="lg"
+							size="lg"
+              nativeButton={false}
               render={<a href={primary.href} className='no-underline!' />}
               className="rounded-full bg-white text-neutral-950 shadow-lg shadow-black/20 hover:bg-white/90 hover:text-neutral-950"
             >
@@ -365,7 +366,8 @@ function SlideCopy({ slide, index, count }: { slide: Slide; index: number; count
           {secondary ? (
             <Button
               size="lg"
-              variant="ghost"
+							variant="ghost"
+              nativeButton={false}
               render={<a href={secondary.href} />}
               className="rounded-full border border-white/30 bg-white/10 text-white! backdrop-blur-md hover:bg-white/20 hover:text-white!"
             >
