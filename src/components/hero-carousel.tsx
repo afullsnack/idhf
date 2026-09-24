@@ -155,7 +155,7 @@ export default function HeroCarousel({ slides: payloadSlides = [] }: IHeroCarous
         opts={{ align: 'start', loop: slides.length > 1 }}
         className="absolute inset-0"
       >
-        <CarouselContent className="h-full -mt-0">
+        <CarouselContent viewportClassName="h-full" className="h-full -mt-0">
           {slides.map((item, index) => (
             <CarouselItem key={item.id} className="h-full basis-full pt-0">
               <SlideBackground slide={item} active={index === current} />
@@ -260,7 +260,7 @@ function SlideBackground({ slide, active }: { slide: Slide; active: boolean }) {
         <motion.div
           animate={{ scale: active ? 1.07 : 1 }}
           transition={{ duration: 7, ease: 'easeOut' }}
-          className="absolute inset-0"
+          className="absolute inset-0 w-full"
         >
           <img
             src={slide.image.url}
