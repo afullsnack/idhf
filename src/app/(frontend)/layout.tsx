@@ -4,6 +4,7 @@ import MainNavigation from '@/components/frontend-nav'
 import { Toaster } from '@/components/ui/toast'
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
+import Script from "next/script"
 
 import Providers from './providers'
 
@@ -46,7 +47,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Footer />
             <Toaster />
           </Main>
-        </Providers>
+				</Providers>
+        <Script src="https://js.paystack.co/v1/inline.js" strategy="afterInteractive" />
       </body>
     </html>
   )

@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Input } from './ui/input'
+import PaystackButton from './PaystackButton'
 
 const animVariant: Variants = {
   initial: { opacity: 0, y: 10, filter: 'blur(4px)', scale: 0.98 },
@@ -109,19 +110,17 @@ const includedFeatures = [
   '5 GB base storage',
 ]
 
-const basePrice = 29
-
 export function Donate() {
-  const [features, setFeatures] = useState<FeatureToggle[]>(defaultFeatures)
+	const [totalPrice, setTotalPrice] = useState(5000)
+  const [currentTab, setCurrentTab] = useState('monthly')
 
-  const [totalPrice, setTotalPrice] = useState(5000)
-    // basePrice + features.filter((f) => f.enabled).reduce((sum, f) => sum + f.price, 0)
+	const priceChars = totalPrice.toLocaleString().toString().split('')
 
-  const priceChars = totalPrice.toLocaleString().toString().split('')
-
-  const toggleFeature = (id: string) => {
-    setFeatures((prev) => prev.map((f) => (f.id === id ? { ...f, enabled: !f.enabled } : f)))
-  }
+	useEffect(() => {
+		if (currentTab === "one-time") {
+			setTotalPrice(10000)
+		}
+	}, [currentTab, setTotalPrice])
 
   return (
     <section aria-label="Donation" className="mx-auto w-full max-w-4xl">
@@ -137,11 +136,20 @@ export function Donate() {
 
         <div className="grid w-full grid-cols-1 gap-4">
           <div className="flex flex-col gap-6 rounded-4xl bg-muted p-5 sm:p-8">
-            <Tabs defaultValue="account" className="w-full">
+						<Tabs defaultValue="account" className="w-full" value={currentTab} onValueChange={(value, event) => {
+							console.log(`Value changed and updated`, { value });
+							setCurrentTab(value)
+            }}>
               <TabsList className="w-full overflow-x-auto md:overflow-visible">
-                <TabsTrigger className="min-w-max md:min-w-0" value="monthly">Monthly Donation</TabsTrigger>
-                <TabsTrigger className="min-w-max md:min-w-0" value="one-time">One-Time Donation</TabsTrigger>
-                <TabsTrigger className="min-w-max md:min-w-0" value="cooperate">Cooperate Sponsor</TabsTrigger>
+                <TabsTrigger className="min-w-max md:min-w-0 selection:text-red-500" value="monthly">
+                  Monthly Donation
+                </TabsTrigger>
+                <TabsTrigger className="min-w-max md:min-w-0" value="one-time">
+                  One-Time Donation
+                </TabsTrigger>
+                <TabsTrigger className="min-w-max md:min-w-0" value="cooperate" disabled>
+                  Cooperate Sponsor
+                </TabsTrigger>
               </TabsList>
               <TabsContent value="monthly">
                 <div className="flex flex-col gap-2">
@@ -179,19 +187,100 @@ export function Donate() {
                 <div className="flex flex-col gap-3 py-6 my-6">
                   <MonthlyDonateAmountPicker
                     amounts={[5000, 10000, 25000]}
-										onAmountChange={(amount) => {
-											setTotalPrice(amount)
+                    onAmountChange={(amount) => {
+                      setTotalPrice(amount)
                       console.log(`Selected amount`, { amount })
                     }}
                   />
                 </div>
-                <Button size="lg" className="w-full text-white">
-                  Proceed to make donation
-                  <ArrowUpRightIcon />
-                </Button>
+                <PaystackButton inputAmount={totalPrice} customerEmail='knightjimmy@gmail.com' />
               </TabsContent>
-              <TabsContent value="one-time"></TabsContent>
-              <TabsContent value="cooperate"></TabsContent>
+              <TabsContent value="one-time">
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-xl font-medium text-foreground">
+                    Make a single contribution to support specific projects or general operations.
+                  </h3>
+                  <p className="text-sm text-muted-foreground">Selected plan amount</p>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-7xl font-semibold tracking-tight text-foreground">₦</span>
+                    <AnimatePresence mode="popLayout">
+                      {priceChars.map((char, idx) => (
+                        <motion.span
+                          key={`${totalPrice}-${char}-${idx}`}
+                          variants={animVariant}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          custom={idx}
+                          className="inline-block text-7xl font-semibold tracking-tight text-foreground"
+                        >
+                          {char}
+                        </motion.span>
+                      ))}
+                    </AnimatePresence>
+                    <span key="period" className="text-xl text-muted-foreground">
+                      /month
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 py-6 my-6">
+                  <MonthlyDonateAmountPicker
+                    amounts={[10000, 50000, 100000]}
+                    onAmountChange={(amount) => {
+                      setTotalPrice(amount)
+                      console.log(`Selected amount`, { amount })
+                    }}
+                  />
+                </div>
+                <PaystackButton inputAmount={totalPrice} customerEmail='knightjimmy@gmail.com' />
+              </TabsContent>
+              <TabsContent value="cooperate">
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-xl font-medium text-foreground">
+                    Make a single contribution to support specific projects or general operations.
+                  </h3>
+                  <p className="text-sm text-muted-foreground">Selected plan amount</p>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-7xl font-semibold tracking-tight text-foreground">₦</span>
+                    <AnimatePresence mode="popLayout">
+                      {priceChars.map((char, idx) => (
+                        <motion.span
+                          key={`${totalPrice}-${char}-${idx}`}
+                          variants={animVariant}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          custom={idx}
+                          className="inline-block text-7xl font-semibold tracking-tight text-foreground"
+                        >
+                          {char}
+                        </motion.span>
+                      ))}
+                    </AnimatePresence>
+                    <span key="period" className="text-xl text-muted-foreground">
+                      /month
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 py-6 my-6">
+                  <MonthlyDonateAmountPicker
+                    amounts={[10000, 50000, 100000]}
+                    onAmountChange={(amount) => {
+                      setTotalPrice(amount)
+                      console.log(`Selected amount`, { amount })
+                    }}
+                  />
+                </div>
+                <PaystackButton inputAmount={totalPrice} customerEmail='knightjimmy@gmail.com' />
+              </TabsContent>
             </Tabs>
           </div>
         </div>
@@ -205,24 +294,24 @@ interface IDonateAmountPockerProps {
   onAmountChange: (amount: number) => void
 }
 function MonthlyDonateAmountPicker({ amounts, onAmountChange }: IDonateAmountPockerProps) {
-	const [customAmount, setCustomAmount] = useState(0);
+  const [customAmount, setCustomAmount] = useState(0)
 
-	useEffect(() => {
-		if (customAmount >= 0) {
-			onAmountChange(customAmount)
-		}
-	}, [customAmount])
+  useEffect(() => {
+    if (customAmount > 0) {
+      onAmountChange(customAmount)
+    }
+  }, [customAmount, onAmountChange])
 
   return (
     <RadioGroup
       defaultValue={amounts[0].toString()}
       className="max-w-sm"
-			onValueChange={(value) => {
-				if (value === "custom") {
-					console.log(`Custom value`, { value });
-					return;
-				}
-				onAmountChange(Number(value))
+      onValueChange={(value) => {
+        if (value === 'custom') {
+          console.log(`Custom value`, { value })
+          return
+        }
+        onAmountChange(Number(value))
         console.log(`Value control`, { value })
       }}
     >
@@ -237,33 +326,16 @@ function MonthlyDonateAmountPicker({ amounts, onAmountChange }: IDonateAmountPoc
           </Field>
         </FieldLabel>
       ))}
-      {/*<FieldLabel htmlFor="pro-plan">
-        <Field orientation="horizontal">
-          <FieldContent>
-            <FieldTitle>₦10,000</FieldTitle>
-          </FieldContent>
-          <RadioGroupItem value="pro" id="pro-plan" />
-        </Field>
-      </FieldLabel>
-      <FieldLabel htmlFor="enterprise-plan">
-        <Field orientation="horizontal">
-          <FieldContent>
-            <FieldTitle>₦25,000</FieldTitle>
-          </FieldContent>
-          <RadioGroupItem value="enterprise" id="enterprise-plan" />
-        </Field>
-      </FieldLabel>*/}
       <FieldLabel htmlFor="custom">
         <Field orientation="horizontal">
           <FieldContent>
             <FieldTitle>Custom</FieldTitle>
-						<Input
-							value={customAmount}
-							onChange={(e) => setCustomAmount(e.target.valueAsNumber)}
-							placeholder="Enter custom amount"
-							type="number"
-
-						/>
+            <Input
+              value={customAmount}
+              onChange={(e) => setCustomAmount(e.target.valueAsNumber)}
+              placeholder="Enter custom amount"
+              type="number"
+            />
           </FieldContent>
           <RadioGroupItem value="custom" id="custom" />
         </Field>
