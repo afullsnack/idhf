@@ -4,6 +4,7 @@ import config from '../../src/payload.config.js'
 export const testUser = {
   email: 'dev@payloadcms.com',
   password: 'test',
+  role: 'admin',
 }
 
 /**
@@ -21,12 +22,14 @@ export async function seedTestUser(): Promise<void> {
         equals: testUser.email,
       },
     },
+    overrideAccess: true,
   })
 
   // Create fresh test user
   await payload.create({
     collection: 'users',
     data: testUser,
+    overrideAccess: true,
   })
 }
 
@@ -44,5 +47,6 @@ export async function cleanupTestUser(): Promise<void> {
         equals: testUser.email,
       },
     },
+    overrideAccess: true,
   })
 }

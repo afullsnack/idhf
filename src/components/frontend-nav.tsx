@@ -60,13 +60,18 @@ export default function MainNavigation() {
           </NavigationMenu>
         </header>
 
-        <Button
-          className="ml-4 hidden text-white! md:inline-flex animate-none sm:animate-bounce"
-					render={<Link href="/donation" className="text-white no-underline!" />}
-          variant="default"
-        >
-          Donate
-        </Button>
+        <div className="ml-4 hidden items-center gap-2 md:flex">
+          <Button
+            className="text-white! animate-none sm:animate-bounce"
+            render={<Link href="/donation" className="text-white no-underline!" />}
+            variant="default"
+          >
+            Donate
+          </Button>
+          <Button variant="outline" render={<Link href="/admin" className="no-underline!" />}>
+            Login
+          </Button>
+        </div>
 
         <Sheet>
           <SheetTrigger
@@ -106,6 +111,14 @@ export default function MainNavigation() {
                 <span data-icon="inline-end">
                   <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2.25} />
                 </span>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full"
+                render={<Link href="/admin" className="no-underline!" />}
+              >
+                Login
               </Button>
             </SheetFooter>
           </SheetContent>

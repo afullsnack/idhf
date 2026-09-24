@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { admins } from '../access/admins'
 
 export const Inductees: CollectionConfig = {
   slug: 'inductees',
@@ -14,7 +15,11 @@ export const Inductees: CollectionConfig = {
   },
   defaultSort: '-createdAt',
   access: {
+    admin: admins,
+    create: admins,
     read: () => true,
+    update: admins,
+    delete: admins,
   },
   versions: {
     drafts: true,

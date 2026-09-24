@@ -24,6 +24,13 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      views: {
+        dashboard: {
+          Component: '/admin/views/Dashboard',
+        },
+      },
+    },
   },
   collections: [Users, Media, HeroSlides, Inductees, Artifacts, Events],
 	editor: lexicalEditor({
