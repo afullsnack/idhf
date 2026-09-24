@@ -1,3 +1,5 @@
+'use client'
+
 import type { Event as EventItem, Media } from '@/payload-types'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/components/craft'

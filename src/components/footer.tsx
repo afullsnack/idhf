@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { FacebookIcon } from "@/components/icons/facebook-icon";

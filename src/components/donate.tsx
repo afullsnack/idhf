@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, type Variants } from 'motion/react'
 
@@ -225,7 +227,7 @@ function MonthlyDonateAmountPicker({ amounts, onAmountChange }: IDonateAmountPoc
       }}
     >
       {amounts.map((amount) => (
-        <FieldLabel htmlFor={amount.toString()}>
+        <FieldLabel key={amount} htmlFor={amount.toString()}>
           <Field orientation="horizontal">
             <FieldContent>
               <FieldTitle>₦{amount.toLocaleString()}</FieldTitle>

@@ -3,6 +3,7 @@
 /dist
 .output
 /.wrangler
+/.next/
 
 # dependencies
 /node_modules
@@ -15,9 +16,6 @@
 
 # testing
 /coverage
-
-# nitro
-/.output/
 
 # production
 /build
@@ -33,16 +31,13 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.dev.vars
-.dev.vars.local
+.env
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-
-.env
 
 /media
 
