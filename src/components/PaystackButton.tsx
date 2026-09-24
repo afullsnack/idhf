@@ -1,7 +1,7 @@
 // app/components/PaystackButton.tsx
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { ArrowUpRightIcon } from 'lucide-react'
 
@@ -10,7 +10,23 @@ interface IPaystackButtonProps {
   customerEmail: string
 }
 export default function PaystackButton({ inputAmount, customerEmail }: IPaystackButtonProps) {
-  const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const [ready, setReady] = useState(false);
+
+  // Poll until the CDN has attached PaystackPop to window
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.PaystackPop) {
+      setReady(true);
+      return;
+    }
+    const id = setInterval(() => {
+      if (typeof window !== 'undefined' && window.PaystackPop) {
+        setReady(true);
+        clearInterval(id);
+      }
+    }, 200);
+    return () => clearInterval(id);
+	}, []);
 
   const payWithPaystack = () => {
     if (typeof window === 'undefined' || !window.PaystackPop) {
@@ -51,7 +67,7 @@ export default function PaystackButton({ inputAmount, customerEmail }: IPaystack
 
   return (
     <div>
-      <Button onClick={payWithPaystack} disabled={loading} size="lg" className="w-full text-white">
+      <Button onClick={payWithPaystack} disabled={loading || !ready} size="lg" className="w-full text-white">
         Proceed to make donation
         <ArrowUpRightIcon />
       </Button>
