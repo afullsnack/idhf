@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { migrations } from './migrations'
+import { plunkEmailAdapter } from './emails/plunk'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { HeroSlides } from './collections/HeroSlides'
@@ -34,7 +35,7 @@ export default buildConfig({
         OrderedListFeature(),
         UnorderedListFeature(),
         LinkFeature({
-          enabledCollections: ['pages'],
+          enabledCollections: ['hero-slides', 'inductees', 'artifacts', 'events'],
           fields: ({ defaultFields }) => {
             const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
               if ('name' in field && field.name === 'url') return false
@@ -73,6 +74,11 @@ export default buildConfig({
     },
     push: false,
     prodMigrations: migrations,
+  }),
+  email: plunkEmailAdapter({
+    apiKey: process.env.PLUNK_API_KEY || '',
+    defaultFromAddress: process.env.EMAIL_FROM_ADDRESS || 'noreply@idomahalloffame.org',
+    defaultFromName: process.env.EMAIL_FROM_NAME || 'Idoma Hall of Fame',
   }),
   sharp,
   localization: {
