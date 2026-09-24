@@ -1,5 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { BoldFeature, EXPERIMENTAL_TableFeature, IndentFeature, ItalicFeature, lexicalEditor, LinkFeature, OrderedListFeature, UnderlineFeature, UnorderedListFeature } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -25,7 +25,41 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, HeroSlides, Inductees, Artifacts, Events],
-  editor: lexicalEditor(),
+	editor: lexicalEditor({
+		features: () => {
+      return [
+        UnderlineFeature(),
+        BoldFeature(),
+        ItalicFeature(),
+        OrderedListFeature(),
+        UnorderedListFeature(),
+        LinkFeature({
+          enabledCollections: ['pages'],
+          fields: ({ defaultFields }) => {
+            const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
+              if ('name' in field && field.name === 'url') return false
+              return true
+            })
+
+            return [
+              ...defaultFieldsWithoutUrl,
+              {
+                name: 'url',
+                type: 'text',
+                admin: {
+                  condition: ({ linkType }) => linkType !== 'internal',
+                },
+                label: ({ t }) => t('fields:enterURL'),
+                required: true,
+              },
+            ]
+          },
+        }),
+        IndentFeature(),
+        EXPERIMENTAL_TableFeature(),
+      ]
+    },
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
