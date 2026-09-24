@@ -112,10 +112,10 @@ const basePrice = 29
 export function Donate() {
   const [features, setFeatures] = useState<FeatureToggle[]>(defaultFeatures)
 
-  const totalPrice =
-    basePrice + features.filter((f) => f.enabled).reduce((sum, f) => sum + f.price, 0)
+  const [totalPrice, setTotalPrice] = useState(5000)
+    // basePrice + features.filter((f) => f.enabled).reduce((sum, f) => sum + f.price, 0)
 
-  const priceChars = totalPrice.toString().split('')
+  const priceChars = totalPrice.toLocaleString().toString().split('')
 
   const toggleFeature = (id: string) => {
     setFeatures((prev) => prev.map((f) => (f.id === id ? { ...f, enabled: !f.enabled } : f)))
@@ -177,18 +177,19 @@ export function Donate() {
                 <div className="flex flex-col gap-3 py-6 my-6">
                   <MonthlyDonateAmountPicker
                     amounts={[5000, 10000, 25000]}
-                    onAmountChange={(amount) => {
+										onAmountChange={(amount) => {
+											setTotalPrice(amount)
                       console.log(`Selected amount`, { amount })
                     }}
                   />
                 </div>
-                <Button size="lg" className="w-full">
+                <Button size="lg" className="w-full text-white">
                   Proceed to make donation
                   <ArrowUpRightIcon />
                 </Button>
               </TabsContent>
               <TabsContent value="one-time"></TabsContent>
-              <TabsContent value="cooperate">Change your password here.</TabsContent>
+              <TabsContent value="cooperate"></TabsContent>
             </Tabs>
           </div>
         </div>

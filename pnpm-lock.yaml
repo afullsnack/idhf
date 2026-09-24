@@ -4,6 +4,17 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@payloadcms/db-postgres@4.0.0-canary.17':
+    hash: f816ba98527569aaf41ed219b43a08aaf88565409141965535ab0137e1e568ba
+    path: patches/@payloadcms__db-postgres.patch
+  '@payloadcms/db-sqlite@4.0.0-canary.17':
+    hash: 6a36d73a999b1bad2e67b29229f10d05fa491d6571a7a0f82ff03ce19f939ceb
+    path: patches/@payloadcms__db-sqlite.patch
+  payload@4.0.0-canary.17:
+    hash: 8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d
+    path: patches/@payloadcms__payload.patch
+
 importers:
 
   .:
@@ -20,24 +31,27 @@ importers:
       '@hugeicons/react':
         specifier: ^1.1.10
         version: 1.1.10(react@19.2.6)
+      '@payloadcms/db-postgres':
+        specifier: 4.0.0-canary.17
+        version: 4.0.0-canary.17(patch_hash=f816ba98527569aaf41ed219b43a08aaf88565409141965535ab0137e1e568ba)(@libsql/client@0.14.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))
       '@payloadcms/db-sqlite':
         specifier: 4.0.0-canary.17
-        version: 4.0.0-canary.17(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))
+        version: 4.0.0-canary.17(patch_hash=6a36d73a999b1bad2e67b29229f10d05fa491d6571a7a0f82ff03ce19f939ceb)(@types/pg@8.20.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(pg@8.20.0)
       '@payloadcms/graphql':
         specifier: 4.0.0-canary.17
-        version: 4.0.0-canary.17(graphql@16.14.2)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(typescript@6.0.3)
+        version: 4.0.0-canary.17(graphql@16.14.2)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(typescript@6.0.3)
       '@payloadcms/plugin-mcp':
         specifier: 4.0.0-canary.17
-        version: 4.0.0-canary.17(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))
+        version: 4.0.0-canary.17(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))
       '@payloadcms/richtext-lexical':
         specifier: 4.0.0-canary.17
-        version: 4.0.0-canary.17(@faceless-ui/modal@3.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)(yjs@13.6.32)
+        version: 4.0.0-canary.17(@faceless-ui/modal@3.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)(yjs@13.6.32)
       '@payloadcms/tanstack-start':
         specifier: 4.0.0-canary.17
-        version: 4.0.0-canary.17(@tanstack/react-router@1.170.16(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@tanstack/react-start@1.168.26(@vitejs/plugin-rsc@0.5.35(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(crossws@0.4.12(srvx@1.0.5))(esbuild@0.25.12)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(rolldown@1.2.9)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(@types/react@19.2.14)(@vitejs/plugin-react@6.0.3(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(@vitejs/plugin-rsc@0.5.35(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4))
+        version: 4.0.0-canary.17(73e70e76e66d687e3850a32dd3631428)
       '@payloadcms/ui':
         specifier: 4.0.0-canary.17
-        version: 4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+        version: 4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4))
@@ -82,7 +96,7 @@ importers:
         version: nitro-nightly@3.0.1-20260923-001540-22b17bb3
       payload:
         specifier: 4.0.0-canary.17
-        version: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+        version: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       react:
         specifier: 19.2.6
         version: 19.2.6
@@ -1838,6 +1852,11 @@ packages:
     resolution: {integrity: sha512-7FNeNl8NCE7aINx7WXiKQrPYZWC/hvrTsmk6zmxbI7LTXE7hVek/n8AfVgpe2y82zl3w0HvCHN0bVKMBoJcC0w==}
     engines: {node: '>= 10.0.0'}
 
+  '@payloadcms/db-postgres@4.0.0-canary.17':
+    resolution: {integrity: sha512-PmBpFmuY1vrXaIygOBVFAdDf5yEnBk1ad0ldVZvH7P7RWF/1C6zYUGLE1bpHaSDOu3nl43Iz4l34r1zhX2InKA==}
+    peerDependencies:
+      payload: 4.0.0-canary.17
+
   '@payloadcms/db-sqlite@4.0.0-canary.17':
     resolution: {integrity: sha512-YQz5RZOqVeL4bAnhE604RkicsR7h98XA5TsdHQEpq2d6RcYVNoJqhLzYKaBXy1HrA/PD2lwO5YY2gByDiC5Bhg==}
     peerDependencies:
@@ -2348,6 +2367,9 @@ packages:
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
+
+  '@types/pg@8.20.0':
+    resolution: {integrity: sha512-bEPFOaMAHTEP1EzpvHTbmwR8UsFyHSKsRisLIHVMXnpNefSbGA1bD6CVy+qKjGSqmZqNqBDV2azOBo8TgkcVow==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -4344,6 +4366,40 @@ packages:
     peerDependencies:
       graphql: ^16.8.1
 
+  pg-cloudflare@1.4.0:
+    resolution: {integrity: sha512-Vo7z/6rrQYxpNRylp4Tlob2elzbh+N/MOQbxFVWCxS7oEx6jF53GTJFxK2WWpKuBRkmiin4Mt+xofFDjx09R0A==}
+
+  pg-connection-string@2.14.0:
+    resolution: {integrity: sha512-XwWDGcLRGCXAR8F/AM5bG7Q+A3Wm2s6QeEjlOKZLlH3UYcguiqCWKyWXVag5TLTIjR7oOJUY8kcADaZgWPyLeg==}
+
+  pg-int8@1.0.1:
+    resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
+    engines: {node: '>=4.0.0'}
+
+  pg-pool@3.14.0:
+    resolution: {integrity: sha512-gKtPkFdQPU3DksooVLi9LsjZxrsBUZIpa+7aVx+LV5pNh0KzP4Zleud2po+ConrxbuXGBJ6Hfer6hdgpIBpBaw==}
+    peerDependencies:
+      pg: '>=8.0'
+
+  pg-protocol@1.16.0:
+    resolution: {integrity: sha512-sILXutLVjCLjcDuOmvhX5e2Z4cS5qG/6Bu3VkpFwdf/633ElGLpEh9bgmuI5I4sqKqkifQiGyiCcx1HdtrK7tg==}
+
+  pg-types@2.2.0:
+    resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
+    engines: {node: '>=4'}
+
+  pg@8.20.0:
+    resolution: {integrity: sha512-ldhMxz2r8fl/6QkXnBD3CR9/xg694oT6DZQ2s6c/RI28OjtSOpxnPrUCGOBJ46RCUxcWdx3p6kw/xnDHjKvaRA==}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      pg-native: '>=3.0.1'
+    peerDependenciesMeta:
+      pg-native:
+        optional: true
+
+  pgpass@1.0.5:
+    resolution: {integrity: sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -4402,6 +4458,22 @@ packages:
   postcss@8.5.28:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
+
+  postgres-array@2.0.0:
+    resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
+    engines: {node: '>=4'}
+
+  postgres-bytea@1.0.1:
+    resolution: {integrity: sha512-5+5HqXnsZPE65IJZSMkZtURARZelel2oXUEO8rH83VS/hxH5vv1uHquPg5wZs8yMAfdv971IU+kcPUczi7NVBQ==}
+    engines: {node: '>=0.10.0'}
+
+  postgres-date@1.0.7:
+    resolution: {integrity: sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==}
+    engines: {node: '>=0.10.0'}
+
+  postgres-interval@1.2.0:
+    resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
+    engines: {node: '>=0.10.0'}
 
   powershell-utils@0.1.0:
     resolution: {integrity: sha512-dM0jVuXJPsDN6DvRpea484tCUaMiXWjuCn++HGTqUWzGDjv5tZkEZldAJ/UMlqRYGFrD/etByo4/xOuC/snX2A==}
@@ -5321,6 +5393,10 @@ packages:
 
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
+
+  xtend@4.0.2:
+    resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
+    engines: {node: '>=0.4'}
 
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
@@ -6812,14 +6888,57 @@ snapshots:
       '@parcel/watcher-win32-x64': 2.6.0
     optional: true
 
-  '@payloadcms/db-sqlite@4.0.0-canary.17(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))':
+  '@payloadcms/db-postgres@4.0.0-canary.17(patch_hash=f816ba98527569aaf41ed219b43a08aaf88565409141965535ab0137e1e568ba)(@libsql/client@0.14.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))':
     dependencies:
-      '@libsql/client': 0.14.0
-      '@payloadcms/drizzle': 4.0.0-canary.17(@libsql/client@0.14.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))
+      '@payloadcms/drizzle': 4.0.0-canary.17(@libsql/client@0.14.0)(@types/pg@8.20.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(pg@8.20.0)
+      '@types/pg': 8.20.0
       console-table-printer: 2.15.0
       drizzle-kit: 0.31.7
-      drizzle-orm: 0.45.2(@libsql/client@0.14.0)
-      payload: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
+      pg: 8.20.0
+      prompts: 2.4.2
+      to-snake-case: 1.0.0
+      uuid: 14.0.0
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/sql.js'
+      - '@upstash/redis'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - better-sqlite3
+      - bun-types
+      - expo-sqlite
+      - gel
+      - knex
+      - kysely
+      - mysql2
+      - pg-native
+      - postgres
+      - prisma
+      - sql.js
+      - sqlite3
+      - supports-color
+
+  '@payloadcms/db-sqlite@4.0.0-canary.17(patch_hash=6a36d73a999b1bad2e67b29229f10d05fa491d6571a7a0f82ff03ce19f939ceb)(@types/pg@8.20.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(pg@8.20.0)':
+    dependencies:
+      '@libsql/client': 0.14.0
+      '@payloadcms/drizzle': 4.0.0-canary.17(@libsql/client@0.14.0)(@types/pg@8.20.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(pg@8.20.0)
+      console-table-printer: 2.15.0
+      drizzle-kit: 0.31.7
+      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       prompts: 2.4.2
       to-snake-case: 1.0.0
       uuid: 14.0.0
@@ -6856,12 +6975,12 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@payloadcms/drizzle@4.0.0-canary.17(@libsql/client@0.14.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))':
+  '@payloadcms/drizzle@4.0.0-canary.17(@libsql/client@0.14.0)(@types/pg@8.20.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(pg@8.20.0)':
     dependencies:
       console-table-printer: 2.15.0
       dequal: 2.0.3
-      drizzle-orm: 0.45.2(@libsql/client@0.14.0)
-      payload: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+      drizzle-orm: 0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       prompts: 2.4.2
       to-snake-case: 1.0.0
       uuid: 14.0.0
@@ -6896,25 +7015,25 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@payloadcms/graphql@4.0.0-canary.17(graphql@16.14.2)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(typescript@6.0.3)':
+  '@payloadcms/graphql@4.0.0-canary.17(graphql@16.14.2)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(typescript@6.0.3)':
     dependencies:
       graphql: 16.14.2
       graphql-scalars: 1.22.2(graphql@16.14.2)
-      payload: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       pluralize: 8.0.0
       ts-essentials: 10.0.3(typescript@6.0.3)
       tsx: 4.22.4
     transitivePeerDependencies:
       - typescript
 
-  '@payloadcms/plugin-mcp@4.0.0-canary.17(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))':
+  '@payloadcms/plugin-mcp@4.0.0-canary.17(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))':
     dependencies:
       '@modelcontextprotocol/server': 2.0.0-beta.3
-      payload: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       tsx: 4.22.4
       zod: 4.6.5
 
-  '@payloadcms/richtext-lexical@4.0.0-canary.17(@faceless-ui/modal@3.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)(yjs@13.6.32)':
+  '@payloadcms/richtext-lexical@4.0.0-canary.17(@faceless-ui/modal@3.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)(yjs@13.6.32)':
     dependencies:
       '@faceless-ui/modal': 3.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@faceless-ui/scroll-info': 2.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -6931,7 +7050,7 @@ snapshots:
       '@lexical/table': 0.45.0
       '@lexical/utils': 0.45.0
       '@payloadcms/translations': 4.0.0-canary.17
-      '@payloadcms/ui': 4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+      '@payloadcms/ui': 4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       acorn: 8.16.0
       bson-objectid: 2.0.4
       csstype: 3.2.3
@@ -6942,7 +7061,7 @@ snapshots:
       mdast-util-from-markdown: 2.0.3
       mdast-util-mdx-jsx: 3.2.0
       micromark-extension-mdx-jsx: 3.0.2
-      payload: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       qs-esm: 8.0.1
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
@@ -6958,13 +7077,13 @@ snapshots:
       - utf-8-validate
       - yjs
 
-  ? '@payloadcms/tanstack-start@4.0.0-canary.17(@tanstack/react-router@1.170.16(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@tanstack/react-start@1.168.26(@vitejs/plugin-rsc@0.5.35(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(crossws@0.4.12(srvx@1.0.5))(esbuild@0.25.12)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(rolldown@1.2.9)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(@types/react@19.2.14)(@vitejs/plugin-react@6.0.3(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(@vitejs/plugin-rsc@0.5.35(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4))'
-  : dependencies:
+  '@payloadcms/tanstack-start@4.0.0-canary.17(73e70e76e66d687e3850a32dd3631428)':
+    dependencies:
       '@payloadcms/translations': 4.0.0-canary.17
-      '@payloadcms/ui': 4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+      '@payloadcms/ui': 4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       '@tanstack/react-router': 1.170.16(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@tanstack/react-start': 1.168.26(@vitejs/plugin-rsc@0.5.35(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4)))(crossws@0.4.12(srvx@1.0.5))(esbuild@0.25.12)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(rolldown@1.2.9)(vite@8.3.0(@types/node@24.12.3)(esbuild@0.25.12)(jiti@2.7.0)(sass@1.105.0)(tsx@4.22.4))
-      payload: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       qs-esm: 7.0.3
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
@@ -6982,7 +7101,7 @@ snapshots:
     dependencies:
       date-fns: 4.1.0
 
-  '@payloadcms/ui@4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)':
+  '@payloadcms/ui@4.0.0-canary.17(@types/react@19.2.14)(monaco-editor@0.56.0)(payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)':
     dependencies:
       '@date-fns/tz': 1.2.0
       '@dnd-kit/core': 6.3.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -7001,7 +7120,7 @@ snapshots:
       md5: 2.3.0
       object-to-formdata: 4.5.1
       path-to-regexp: 6.3.0
-      payload: 4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3)
+      payload: 4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3)
       qs-esm: 8.0.1
       react: 19.2.6
       react-datepicker: 7.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -7473,6 +7592,12 @@ snapshots:
       undici-types: 7.16.0
 
   '@types/parse-json@4.0.2': {}
+
+  '@types/pg@8.20.0':
+    dependencies:
+      '@types/node': 24.12.3
+      pg-protocol: 1.16.0
+      pg-types: 2.2.0
 
   '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
@@ -7987,9 +8112,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.45.2(@libsql/client@0.14.0):
+  drizzle-orm@0.45.2(@libsql/client@0.14.0)(@types/pg@8.20.0)(pg@8.20.0):
     optionalDependencies:
       '@libsql/client': 0.14.0
+      '@types/pg': 8.20.0
+      pg: 8.20.0
 
   dunder-proto@1.0.1:
     dependencies:
@@ -9465,7 +9592,7 @@ snapshots:
 
   pathe@2.0.3: {}
 
-  payload@4.0.0-canary.17(graphql@16.14.2)(typescript@6.0.3):
+  payload@4.0.0-canary.17(patch_hash=8fe0a5718869a915c27f815e8a488f21c9189cbf3852229967ab40f3d925a22d)(graphql@16.14.2)(typescript@6.0.3):
     dependencies:
       '@next/env': 16.2.7
       '@payloadcms/translations': 4.0.0-canary.17
@@ -9506,6 +9633,41 @@ snapshots:
       - supports-color
       - typescript
       - utf-8-validate
+
+  pg-cloudflare@1.4.0:
+    optional: true
+
+  pg-connection-string@2.14.0: {}
+
+  pg-int8@1.0.1: {}
+
+  pg-pool@3.14.0(pg@8.20.0):
+    dependencies:
+      pg: 8.20.0
+
+  pg-protocol@1.16.0: {}
+
+  pg-types@2.2.0:
+    dependencies:
+      pg-int8: 1.0.1
+      postgres-array: 2.0.0
+      postgres-bytea: 1.0.1
+      postgres-date: 1.0.7
+      postgres-interval: 1.2.0
+
+  pg@8.20.0:
+    dependencies:
+      pg-connection-string: 2.14.0
+      pg-pool: 3.14.0(pg@8.20.0)
+      pg-protocol: 1.16.0
+      pg-types: 2.2.0
+      pgpass: 1.0.5
+    optionalDependencies:
+      pg-cloudflare: 1.4.0
+
+  pgpass@1.0.5:
+    dependencies:
+      split2: 4.2.0
 
   picocolors@1.1.1: {}
 
@@ -9580,6 +9742,16 @@ snapshots:
       nanoid: 3.3.19
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  postgres-array@2.0.0: {}
+
+  postgres-bytea@1.0.1: {}
+
+  postgres-date@1.0.7: {}
+
+  postgres-interval@1.2.0:
+    dependencies:
+      xtend: 4.0.2
 
   powershell-utils@0.1.0: {}
 
@@ -10445,6 +10617,8 @@ snapshots:
       js-yaml: 4.3.2
 
   xmlchars@2.2.0: {}
+
+  xtend@4.0.2: {}
 
   yallist@3.1.1: {}
 

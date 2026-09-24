@@ -15,7 +15,10 @@ const getImportMap = async () => (await import('./importMap.js')).importMap
 
 export const loadAdminPageRSC = createServerFn({ method: 'GET' })
   .validator((data: LoadInput): LoadInput => data ?? {})
-  .handler(async ({ data }) => {
+  // Return type is loose: it flows straight into `@payloadcms/tanstack-start`,
+  // which types it as `any`. TanStack's strict serializability checker bakes
+  // React nodes from RSC into it, so circumvent it here.
+  .handler(async ({ data }): Promise<any> => {
     const { loadAdminPage } = await import('@payloadcms/tanstack-start/server')
     return loadAdminPage({
       config: await getConfig(),
@@ -25,10 +28,13 @@ export const loadAdminPageRSC = createServerFn({ method: 'GET' })
     })
   })
 
-export const getLayoutDataFn = createServerFn({ method: 'GET' }).handler(async () => {
-  const { loadLayoutData } = await import('@payloadcms/tanstack-start/layouts')
-  return loadLayoutData({ config: await getConfig(), importMap: await getImportMap() })
-})
+export const getLayoutDataFn = createServerFn({ method: 'GET' }).handler(
+  // Same reasoning as `loadAdminPageRSC`: loosely typed at the Payload boundary.
+  async (): Promise<any> => {
+    const { loadLayoutData } = await import('@payloadcms/tanstack-start/layouts')
+    return loadLayoutData({ config: await getConfig(), importMap: await getImportMap() })
+  },
+)
 
 const runPayloadServerFn = createServerFn({ method: 'POST' })
   .validator((args: ServerFunctionClientArgs): ServerFunctionClientArgs => args)

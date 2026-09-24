@@ -25,6 +25,7 @@
     "@fontsource-variable/figtree": "^5.3.0",
     "@hugeicons/core-free-icons": "^4.3.4",
     "@hugeicons/react": "^1.1.10",
+    "@payloadcms/db-postgres": "4.0.0-canary.17",
     "@payloadcms/db-sqlite": "4.0.0-canary.17",
     "@payloadcms/graphql": "4.0.0-canary.17",
     "@payloadcms/plugin-mcp": "4.0.0-canary.17",
@@ -83,6 +84,11 @@
       "sharp",
       "esbuild",
       "unrs-resolver"
-    ]
+    ],
+    "patchedDependencies": {
+      "payload@4.0.0-canary.17": "patches/@payloadcms__payload.patch",
+      "@payloadcms/db-postgres@4.0.0-canary.17": "patches/@payloadcms__db-postgres.patch",
+      "@payloadcms/db-sqlite@4.0.0-canary.17": "patches/@payloadcms__db-sqlite.patch"
+    }
   }
 }

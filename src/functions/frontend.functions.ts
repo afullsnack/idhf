@@ -1,9 +1,9 @@
 import { createServerFn } from '@tanstack/react-start'
-import { isCloudflarePages } from '@/lib/cloudflare'
+import { getHyperdriveConnectionString, isCloudflareWorkers } from '@/lib/cloudflare'
 import type { Artifact, Event as EventItem, HeroSlide, Inductee } from '@/payload-types'
 
 export const getHeroSlides = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflarePages()) return []
+  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
 
   const config = (await import('@payload-config')).default
   const { getPayload } = await import('payload')
@@ -22,7 +22,7 @@ export const getHeroSlides = createServerFn({ method: 'GET' }).handler(async () 
 })
 
 export const getInductees = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflarePages()) return []
+  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
 
   const config = (await import('@payload-config')).default
   const { getPayload } = await import('payload')
@@ -42,7 +42,7 @@ export const getInductees = createServerFn({ method: 'GET' }).handler(async () =
 })
 
 export const getArtifacts = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflarePages()) return []
+  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
 
   const config = (await import('@payload-config')).default
   const { getPayload } = await import('payload')
@@ -62,7 +62,7 @@ export const getArtifacts = createServerFn({ method: 'GET' }).handler(async () =
 })
 
 export const getEvents = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflarePages()) return []
+  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
 
   const config = (await import('@payload-config')).default
   const { getPayload } = await import('payload')
