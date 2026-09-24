@@ -10,7 +10,8 @@ export const testUser = {
  * Seeds a test user for e2e admin tests.
  */
 export async function seedTestUser(): Promise<void> {
-  const payload = await getPayload({ config })
+  const configResolved = await config
+  const payload = await getPayload({ config: configResolved })
 
   // Delete existing test user if any
   await payload.delete({
@@ -33,7 +34,8 @@ export async function seedTestUser(): Promise<void> {
  * Cleans up test user after tests
  */
 export async function cleanupTestUser(): Promise<void> {
-  const payload = await getPayload({ config })
+  const configResolved = await config
+  const payload = await getPayload({ config: configResolved })
 
   await payload.delete({
     collection: 'users',

@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef } from 'react'
 import { motion, useScroll, useSpring, useTransform, type MotionValue } from 'motion/react'
 import { HugeiconsIcon } from '@hugeicons/react'

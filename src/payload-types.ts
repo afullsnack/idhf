@@ -69,8 +69,6 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    folders: Folder;
-    tags: Tag;
     'hero-slides': HeroSlide;
     inductees: Inductee;
     artifacts: Artifact;
@@ -84,8 +82,6 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    folders: FoldersSelect<false> | FoldersSelect<true>;
-    tags: TagsSelect<false> | TagsSelect<true>;
     'hero-slides': HeroSlidesSelect<false> | HeroSlidesSelect<true>;
     inductees: InducteesSelect<false> | InducteesSelect<true>;
     artifacts: ArtifactsSelect<false> | ArtifactsSelect<true>;
@@ -104,8 +100,6 @@ export interface Config {
   locale: 'en';
   widgets: {
     collections: CollectionsWidget;
-    'collection-query': CollectionQueryWidget;
-    activity: ActivityWidget;
   };
   user: User;
   jobs: {
@@ -144,6 +138,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -163,8 +158,6 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
-  _h_folders?: (number | null) | Folder;
-  _h_tags?: (number | Tag)[] | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -176,32 +169,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "folders".
- */
-export interface Folder {
-  id: number;
-  _h_folders?: (number | null) | Folder;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-  _h_slugPath?: string | null;
-  _h_titlePath?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags".
- */
-export interface Tag {
-  id: number;
-  _h_tags?: (number | null) | Tag;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-  _h_slugPath?: string | null;
-  _h_titlePath?: string | null;
 }
 /**
  * Slides for the vertical hero carousel on the landing page.
@@ -364,14 +331,6 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'folders';
-        value: number | Folder;
-      } | null)
-    | ({
-        relationTo: 'tags';
-        value: number | Tag;
-      } | null)
-    | ({
         relationTo: 'hero-slides';
         value: number | HeroSlide;
       } | null)
@@ -441,6 +400,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -457,8 +417,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  _h_folders?: T;
-  _h_tags?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -470,30 +428,6 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "folders_select".
- */
-export interface FoldersSelect<T extends boolean = true> {
-  _h_folders?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _h_slugPath?: T;
-  _h_titlePath?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags_select".
- */
-export interface TagsSelect<T extends boolean = true> {
-  _h_tags?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _h_slugPath?: T;
-  _h_titlePath?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -609,40 +543,6 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collection-query_widget".
- */
-export interface CollectionQueryWidget {
-  data?: {
-    title?: string | null;
-    relatedCollection: 'users' | 'media' | 'folders' | 'tags' | 'hero-slides' | 'inductees' | 'artifacts' | 'events';
-    where?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    sortField?: string | null;
-    sortDirection?: ('asc' | 'desc') | null;
-    limit?: number | null;
-  };
-  width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "activity_widget".
- */
-export interface ActivityWidget {
-  data?: {
-    excludedCollections?:
-      ('users' | 'media' | 'folders' | 'tags' | 'hero-slides' | 'inductees' | 'artifacts' | 'events')[] | null;
-  };
-  width: 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

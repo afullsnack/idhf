@@ -1,4 +1,5 @@
-import { Link } from '@tanstack/react-router'
+'use client'
+
 import { Container, Main, Section } from './craft'
 import {
   NavigationMenu,
@@ -19,6 +20,7 @@ import {
 } from './ui/sheet'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { ArrowRight01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
+import Link from 'next/link'
 
 const mainNavList = [
   {
@@ -60,7 +62,7 @@ export default function MainNavigation() {
 
         <Button
           className="ml-4 hidden text-white! md:inline-flex animate-none sm:animate-bounce"
-					render={<a href="/donation" className="text-white no-underline!" />}
+					render={<Link href="/donation" className="text-white no-underline!" />}
           variant="default"
         >
           Donate
@@ -88,7 +90,7 @@ export default function MainNavigation() {
                 <SheetClose
                   key={item.href}
                   render={
-                    <a
+                    <Link
                       href={item.href}
                       className="rounded-2xl px-3 py-3.5 text-base font-medium text-foreground transition-colors no-underline hover:bg-muted dark:hover:bg-muted/50"
                     />
@@ -99,7 +101,7 @@ export default function MainNavigation() {
               ))}
             </nav>
             <SheetFooter className="border-t">
-              <Button size="lg" className="w-full" render={<a href="/donation" />}>
+              <Button size="lg" className="w-full" render={<Link href="/donation" />}>
                 Donate
                 <span data-icon="inline-end">
                   <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2.25} />
@@ -116,9 +118,9 @@ export default function MainNavigation() {
 interface ILogoProps {}
 export function Logo() {
   return (
-    <a href="/">
+    <Link href="/">
       <img src="/logo.png" className="size-16 object-contain" />
-    </a>
+    </Link>
   )
 }
 
@@ -132,7 +134,7 @@ function MenuItem({ linkClassName, href, title }: IMenuItemProps) {
   return (
     <NavigationMenuItem>
       <NavigationMenuLink
-        render={<a href={href} className="no-underline" />}
+        render={<Link href={href} className="no-underline" />}
         href={href}
         className={styles}
       >

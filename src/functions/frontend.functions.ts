@@ -1,12 +1,9 @@
-import { createServerFn } from '@tanstack/react-start'
-import { getHyperdriveConnectionString, isCloudflareWorkers } from '@/lib/cloudflare'
+import configPromise from '@payload-config'
 import type { Artifact, Event as EventItem, HeroSlide, Inductee } from '@/payload-types'
+import { getPayload } from 'payload'
 
-export const getHeroSlides = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
-
-  const config = (await import('@payload-config')).default
-  const { getPayload } = await import('payload')
+export async function getHeroSlides(): Promise<HeroSlide[]> {
+  const config = await configPromise
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -19,13 +16,10 @@ export const getHeroSlides = createServerFn({ method: 'GET' }).handler(async () 
   })
 
   return docs as HeroSlide[]
-})
+}
 
-export const getInductees = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
-
-  const config = (await import('@payload-config')).default
-  const { getPayload } = await import('payload')
+export async function getInductees(): Promise<Inductee[]> {
+  const config = await configPromise
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -39,13 +33,10 @@ export const getInductees = createServerFn({ method: 'GET' }).handler(async () =
   })
 
   return docs as Inductee[]
-})
+}
 
-export const getArtifacts = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
-
-  const config = (await import('@payload-config')).default
-  const { getPayload } = await import('payload')
+export async function getArtifacts(): Promise<Artifact[]> {
+  const config = await configPromise
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -59,13 +50,10 @@ export const getArtifacts = createServerFn({ method: 'GET' }).handler(async () =
   })
 
   return docs as Artifact[]
-})
+}
 
-export const getEvents = createServerFn({ method: 'GET' }).handler(async () => {
-  if (isCloudflareWorkers() && !getHyperdriveConnectionString()) return []
-
-  const config = (await import('@payload-config')).default
-  const { getPayload } = await import('payload')
+export async function getEvents(): Promise<EventItem[]> {
+  const config = await configPromise
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -79,4 +67,4 @@ export const getEvents = createServerFn({ method: 'GET' }).handler(async () => {
   })
 
   return docs as EventItem[]
-})
+}
