@@ -20,6 +20,8 @@ import {
 } from './ui/sheet'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { ArrowRight01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
+import type { MouseEvent } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 const mainNavList = [
@@ -68,9 +70,7 @@ export default function MainNavigation() {
           >
             Donate
           </Button>
-          <Button variant="outline" render={<Link href="/admin" className="no-underline!" />}>
-            Login
-          </Button>
+          <LoginButton />
         </div>
 
         <Sheet>
@@ -112,19 +112,61 @@ export default function MainNavigation() {
                   <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2.25} />
                 </span>
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full"
-                render={<Link href="/admin" className="no-underline!" />}
-              >
-                Login
-              </Button>
+              <LoginButton className="w-full" size="lg" />
             </SheetFooter>
           </SheetContent>
         </Sheet>
       </Container>
     </Section>
+  )
+}
+
+const adminRoute = '/admin'
+const createFirstUserRoute = '/admin/create-first-user'
+
+interface ILoginButtonProps {
+  className?: string
+  size?: 'default' | 'lg'
+}
+
+function LoginButton({ className, size }: ILoginButtonProps) {
+  const router = useRouter()
+
+  const handleClick = async (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return
+    }
+
+    event.preventDefault()
+
+    try {
+      const response = await fetch('/api/users/me', {
+        cache: 'no-store',
+        credentials: 'include',
+      })
+      const result = response.ok ? ((await response.json()) as { user?: unknown }) : null
+
+      router.replace(result?.user ? adminRoute : createFirstUserRoute)
+    } catch {
+      router.replace(createFirstUserRoute)
+    }
+  }
+
+  return (
+    <Button
+      className={className}
+      size={size}
+      variant="outline"
+      render={
+        <Link
+          href={createFirstUserRoute}
+          className="no-underline!"
+          onClick={handleClick}
+        />
+      }
+    >
+      Login
+    </Button>
   )
 }
 
