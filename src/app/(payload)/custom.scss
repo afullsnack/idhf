@@ -3,3 +3,50 @@
 // Import Payload UI utilities/design tokens to extend the admin theme, e.g.:
 //   @use "sass:math";
 //   @import '~@payloadcms/next/css';
+
+.login__signup {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.login__signup p {
+  margin: 0;
+}
+
+.login__signup-success {
+  margin-bottom: 0.75rem !important;
+  color: var(--theme-success-500, #46a758);
+}
+
+.sign-up {
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 480px;
+  padding: 3rem 1.5rem;
+  width: 100%;
+}
+
+.sign-up__brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.sign-up h1 {
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.sign-up > p {
+  color: var(--theme-elevation-500, #6b7280);
+  margin: 0;
+  text-align: center;
+}
+
+.sign-up form {
+  margin-top: 2rem;
+}
+
+.sign-up__footer {
+  margin-top: 1.5rem !important;
+}

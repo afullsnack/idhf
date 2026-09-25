@@ -21,7 +21,7 @@ const assignRole: CollectionBeforeChangeHook = async ({ data, operation, req }) 
     if (totalDocs === 0) {
       // The first account ever created bootstraps the dashboard as `admin`.
       data.role = 'admin'
-    } else if (!data.role) {
+    } else if (!isAdmin || !data.role) {
       // Everyone else is a regular user — role is never user-selectable.
       data.role = 'user'
     }

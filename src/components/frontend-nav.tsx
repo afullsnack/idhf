@@ -122,7 +122,7 @@ export default function MainNavigation() {
 }
 
 const adminRoute = '/admin'
-const createFirstUserRoute = '/admin/create-first-user'
+const adminLoginRoute = '/admin/login'
 
 interface ILoginButtonProps {
   className?: string
@@ -146,9 +146,9 @@ function LoginButton({ className, size }: ILoginButtonProps) {
       })
       const result = response.ok ? ((await response.json()) as { user?: unknown }) : null
 
-      router.replace(result?.user ? adminRoute : createFirstUserRoute)
+      router.replace(result?.user ? adminRoute : adminLoginRoute)
     } catch {
-      router.replace(createFirstUserRoute)
+      router.replace(adminLoginRoute)
     }
   }
 
@@ -159,7 +159,7 @@ function LoginButton({ className, size }: ILoginButtonProps) {
       variant="outline"
       render={
         <Link
-          href={createFirstUserRoute}
+          href={adminLoginRoute}
           className="no-underline!"
           onClick={handleClick}
         />

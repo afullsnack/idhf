@@ -25,6 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
+      afterLogin: ['/admin/components/LoginSignupLink'],
       graphics: {
         Icon: '/admin/graphics/Icon',
         Logo: '/admin/graphics/Logo',
@@ -32,6 +33,11 @@ export default buildConfig({
       views: {
         dashboard: {
           Component: '/admin/views/Dashboard',
+        },
+        'sign-up': {
+          Component: '/admin/views/SignUp',
+          path: '/sign-up',
+          exact: true,
         },
       },
     },
