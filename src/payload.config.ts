@@ -25,11 +25,36 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
+      graphics: {
+        Icon: '/admin/graphics/Icon',
+        Logo: '/admin/graphics/Logo',
+      },
       views: {
         dashboard: {
           Component: '/admin/views/Dashboard',
         },
       },
+    },
+    meta: {
+      defaultOGImageType: 'off',
+      icons: {
+        apple: '/logo.png',
+        icon: '/logo.png',
+      },
+      openGraph: {
+        title: 'Idoma Hall of Fame',
+        description:
+          'A sanctuary of cultural pride, a repository of achievements, and a testament to the enduring spirit of the Idoma people.',
+        images: [
+          {
+            url: '/logo.png',
+            width: 1536,
+            height: 1024,
+            alt: 'Idoma Hall of Fame',
+          },
+        ],
+      },
+      titleSuffix: '- Idoma Hall of Fame',
     },
   },
   collections: [Users, Media, HeroSlides, Inductees, Artifacts, Events],
