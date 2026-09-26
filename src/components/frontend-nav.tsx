@@ -21,6 +21,7 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react'
 import { ArrowRight01Icon, Menu01Icon } from '@hugeicons/core-free-icons'
 import type { MouseEvent } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
@@ -48,6 +49,9 @@ const mainNavList = [
 ]
 
 export default function MainNavigation() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const closeMenu = useCallback(() => setMenuOpen(false), [])
+
   return (
     <Section className="m-0! p-0! flex! items-center! justify-center! w-full max-h-14">
       <Container className="m-0! px-0! p-0! flex items-center justify-between md:justify-center gap-12 mx-0! w-full h-full">
@@ -73,7 +77,7 @@ export default function MainNavigation() {
           <LoginButton />
         </div>
 
-        <Sheet>
+        <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
           <SheetTrigger
             render={
               <Button
@@ -106,13 +110,18 @@ export default function MainNavigation() {
               ))}
             </nav>
             <SheetFooter className="border-t">
-              <Button size="lg" className="w-full" render={<Link href="/donation" />}>
+              <Button
+                size="lg"
+                className="w-full"
+                onClick={closeMenu}
+                render={<Link href="/donation" />}
+              >
                 Donate
                 <span data-icon="inline-end">
                   <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2.25} />
                 </span>
               </Button>
-              <LoginButton className="w-full" size="lg" />
+              <LoginButton className="w-full" size="lg" onNavigate={closeMenu} />
             </SheetFooter>
           </SheetContent>
         </Sheet>
@@ -127,12 +136,16 @@ const adminLoginRoute = '/admin/login'
 interface ILoginButtonProps {
   className?: string
   size?: 'default' | 'lg'
+  /** Called on tap so a surrounding mobile menu can dismiss itself. */
+  onNavigate?: () => void
 }
 
-function LoginButton({ className, size }: ILoginButtonProps) {
+function LoginButton({ className, size, onNavigate }: ILoginButtonProps) {
   const router = useRouter()
 
   const handleClick = async (event: MouseEvent<HTMLAnchorElement>) => {
+    onNavigate?.()
+
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return
     }
