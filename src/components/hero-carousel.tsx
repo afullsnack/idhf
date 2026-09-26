@@ -17,10 +17,14 @@ import {
   PlayIcon,
 } from '@hugeicons/core-free-icons'
 import { AnimatePresence, motion } from 'motion/react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import EventCountdown from '@/components/event-countdown'
 import type { HeroSlide } from '@/payload-types'
 
 const AUTOPLAY_MS = 6500
+
+/** Used when a video slide never fires `ended` (blocked autoplay, decode failure, ...). */
+const VIDEO_FALLBACK_MS = 12000
 
 type Slide = {
   id: string | number
@@ -33,6 +37,9 @@ type Slide = {
     variant?: 'primary' | 'secondary' | 'ghost' | 'link' | null
   }[]
   image?: { url?: string | null; alt?: string | null }
+  video?: { url?: string | null; alt?: string | null }
+  countdownDate?: string | null
+  countdownLabel?: string | null
 }
 
 const DEFAULT_SLIDES: Slide[] = [
@@ -87,6 +94,10 @@ function toSlide(slide: HeroSlide): Slide {
     typeof slide.image === 'object' && slide.image
       ? { url: slide.image.url ?? null, alt: slide.image.alt ?? null }
       : undefined
+  const video =
+    typeof slide.video === 'object' && slide.video
+      ? { url: slide.video.url ?? null, alt: slide.video.alt ?? null }
+      : undefined
 
   return {
     id: slide.id,
@@ -95,27 +106,59 @@ function toSlide(slide: HeroSlide): Slide {
     description: slide.description,
     callToActions: slide.callToActions ?? undefined,
     image,
+    video,
+    countdownDate: slide.countdownDate ?? null,
+    countdownLabel: slide.countdownLabel ?? null,
   }
 }
 
 const pad = (n: number) => String(n).padStart(2, '0')
 
+/** Stable reference so the default prop does not change identity on every render. */
+const EMPTY_SLIDES: HeroSlide[] = []
+
 interface IHeroCarouselProps {
   slides?: HeroSlide[]
 }
 
-export default function HeroCarousel({ slides: payloadSlides = [] }: IHeroCarouselProps) {
-  const slides = payloadSlides.length > 0 ? payloadSlides.map(toSlide) : DEFAULT_SLIDES
+export default function HeroCarousel({ slides: payloadSlides = EMPTY_SLIDES }: IHeroCarouselProps) {
+  const slides = useMemo(
+    () => (payloadSlides.length > 0 ? payloadSlides.map(toSlide) : DEFAULT_SLIDES),
+    [payloadSlides],
+  )
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
   const [paused, setPaused] = useState(false)
   const slide = slides[current]
+  const hasCountdown = Boolean(slide?.countdownDate)
+  const videoRefs = useRef<Map<string | number, HTMLVideoElement>>(new Map())
 
   const onSelect = useCallback((nextApi: CarouselApi) => {
     if (!nextApi) return
     setCurrent(nextApi.selectedScrollSnap())
   }, [])
+
+  const registerVideo = useCallback((id: string | number, element: HTMLVideoElement | null) => {
+    if (element) {
+      videoRefs.current.set(id, element)
+    } else {
+      videoRefs.current.delete(id)
+    }
+  }, [])
+
+  const advance = useCallback(() => {
+    if (!api) return
+    if (api.canScrollNext()) {
+      api.scrollNext()
+    } else {
+      api.scrollTo(0)
+    }
+  }, [api])
+
+  const onVideoEnded = useCallback(() => {
+    advance()
+  }, [advance])
 
   useEffect(() => {
     if (!api) return
@@ -131,15 +174,23 @@ export default function HeroCarousel({ slides: payloadSlides = [] }: IHeroCarous
 
   useEffect(() => {
     if (!api || slides.length < 2 || paused) return
-    const timer = setInterval(() => {
-      if (api.canScrollNext()) {
-        api.scrollNext()
-      } else {
-        api.scrollTo(0)
-      }
-    }, AUTOPLAY_MS)
-    return () => clearInterval(timer)
-  }, [api, slides.length, paused])
+
+    const activeSlide = slides[current]
+    const isVideoSlide = Boolean(activeSlide?.video?.url)
+    const duration = isVideoSlide ? videoRefs.current.get(activeSlide.id)?.duration : undefined
+
+    // A video slide is driven by the video's own `ended` event, so it only
+    // advances once the video has finished. The timer is a safety net for when
+    // that event never arrives (autoplay blocked, decode failure, ...).
+    const delay = isVideoSlide
+      ? Number.isFinite(duration) && (duration ?? 0) > 0
+        ? (duration as number) * 1000 + 250
+        : VIDEO_FALLBACK_MS
+      : AUTOPLAY_MS
+
+    const timer = setTimeout(advance, delay)
+    return () => clearTimeout(timer)
+  }, [api, slides, current, paused, advance])
 
   return (
     <section
@@ -158,7 +209,13 @@ export default function HeroCarousel({ slides: payloadSlides = [] }: IHeroCarous
         <CarouselContent viewportClassName="h-full" className="h-full -mt-0">
           {slides.map((item, index) => (
             <CarouselItem key={item.id} className="h-full basis-full pt-0">
-              <SlideBackground slide={item} active={index === current} />
+              <SlideBackground
+                slide={item}
+                active={index === current}
+                paused={paused}
+                registerVideo={registerVideo}
+                onVideoEnded={onVideoEnded}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -168,7 +225,12 @@ export default function HeroCarousel({ slides: payloadSlides = [] }: IHeroCarous
       <div className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-black/70 via-transparent to-black/30" />
 
       <div className="pointer-events-none absolute inset-0 z-10 flex items-center">
-        <div className="pointer-events-none mx-auto w-full max-w-7xl px-4 pt-20 sm:px-8">
+        <div
+          className={cn(
+            'pointer-events-none mx-auto w-full max-w-7xl px-4 pt-20 sm:px-8',
+            hasCountdown && 'flex justify-center',
+          )}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -176,9 +238,14 @@ export default function HeroCarousel({ slides: payloadSlides = [] }: IHeroCarous
               animate="show"
               exit="exit"
               variants={copyContainerVariants}
-              className="pointer-events-auto max-w-3xl"
+              className={cn('pointer-events-auto', hasCountdown ? 'w-full' : 'max-w-3xl')}
             >
-              <SlideCopy slide={slide} index={current} count={count} />
+              <SlideCopy
+                slide={slide}
+                index={current}
+                count={count}
+                centered={hasCountdown}
+              />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -253,7 +320,62 @@ export default function HeroCarousel({ slides: payloadSlides = [] }: IHeroCarous
   )
 }
 
-function SlideBackground({ slide, active }: { slide: Slide; active: boolean }) {
+function SlideBackground({
+  slide,
+  active,
+  paused,
+  registerVideo,
+  onVideoEnded,
+}: {
+  slide: Slide
+  active: boolean
+  paused: boolean
+  registerVideo: (id: string | number, element: HTMLVideoElement | null) => void
+  onVideoEnded: () => void
+}) {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  const setVideoRef = useCallback(
+    (element: HTMLVideoElement | null) => {
+      videoRef.current = element
+      registerVideo(slide.id, element)
+    },
+    [registerVideo, slide.id],
+  )
+
+  useEffect(() => {
+    const element = videoRef.current
+    if (!element) return
+
+    if (active && !paused) {
+      if (element.ended || element.currentTime === 0) {
+        element.currentTime = 0
+      }
+      void element.play().catch(() => undefined)
+    } else {
+      element.pause()
+    }
+  }, [active, paused])
+
+  if (slide.video?.url) {
+    return (
+      <div className="relative h-full w-full overflow-hidden bg-neutral-950">
+        <video
+          ref={setVideoRef}
+          src={slide.video.url}
+          poster={slide.image?.url ?? undefined}
+          onEnded={onVideoEnded}
+          muted
+          playsInline
+          preload="metadata"
+          aria-hidden
+          tabIndex={-1}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="relative h-full w-full overflow-hidden">
       {slide.image?.url ? (
@@ -306,24 +428,40 @@ const copyLineVariants = {
   exit: { opacity: 0 },
 }
 
-function SlideCopy({ slide, index, count }: { slide: Slide; index: number; count: number }) {
+function SlideCopy({
+  slide,
+  index,
+  count,
+  centered = false,
+}: {
+  slide: Slide
+  index: number
+  count: number
+  centered?: boolean
+}) {
   const primary = slide.callToActions?.find((cta) => cta.variant === 'primary')
   const secondary =
     slide.callToActions?.find((cta) => cta.variant !== 'primary') ??
     slide.callToActions?.[1]
 
   return (
-    <div className="flex flex-col gap-6 md:gap-8">
-      <motion.div variants={copyLineVariants} className="flex items-center gap-3">
+    <div
+      className={cn('flex flex-col gap-6 md:gap-8', centered && 'items-center text-center')}
+    >
+      <motion.div
+        variants={copyLineVariants}
+        className={cn('flex items-center gap-3', centered && 'justify-center')}
+      >
         {slide.eyebrow ? (
           <>
-            <span className="h-px w-10 bg-white/60" />
+            {centered ? <span className="h-px w-10 bg-white/60" /> : null}
             <span className="text-xs font-semibold tracking-[0.3em] text-white/90 uppercase md:text-sm">
               {slide.eyebrow}
             </span>
+            {centered ? <span className="h-px w-10 bg-white/60" /> : null}
           </>
         ) : null}
-        {count > 0 && (
+        {count > 0 && !centered && (
           <span className="ml-auto font-mono text-sm text-white/50 lg:hidden">
             {pad(index + 1)}
             <span className="mx-1">/</span>
@@ -332,9 +470,24 @@ function SlideCopy({ slide, index, count }: { slide: Slide; index: number; count
         )}
       </motion.div>
 
+      {slide.countdownDate ? (
+        <motion.div variants={copyLineVariants} className="w-full">
+          <EventCountdown
+            endDate={slide.countdownDate}
+            label={slide.countdownLabel ?? undefined}
+            className="py-2"
+          />
+        </motion.div>
+      ) : null}
+
       <motion.h1
         variants={copyLineVariants}
-        className="text-balance text-red-400 break-words text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl xl:text-7xl"
+        className={cn(
+          'text-balance text-red-400 break-words font-semibold tracking-tight',
+          centered
+            ? 'text-2xl leading-tight md:text-4xl'
+            : 'text-4xl leading-[1.05] md:text-6xl xl:text-7xl',
+        )}
       >
         {slide.title}
       </motion.h1>

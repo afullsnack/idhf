@@ -215,9 +215,21 @@ export interface HeroSlide {
       }[]
     | null;
   /**
-   * Background image for the slide. Falls back to a branded gradient if empty.
+   * Background image for the slide. Falls back to a branded gradient if neither image nor video is set.
    */
   image?: (number | null) | Media;
+  /**
+   * Background video for the slide. Takes precedence over the image, and the carousel only advances once the video finishes playing. Cannot be combined with an image.
+   */
+  video?: (number | null) | Media;
+  /**
+   * Optional end date. Renders a countdown centred over the slide. The largest unit is whichever is still non-zero, so days dominate until only hours remain, then hours, minutes and seconds.
+   */
+  countdownDate?: string | null;
+  /**
+   * Optional label shown above the countdown, e.g. "Inauguration Countdown".
+   */
+  countdownLabel?: string | null;
   /**
    * Sort order within the carousel. Lower numbers appear first.
    */
@@ -463,6 +475,9 @@ export interface HeroSlidesSelect<T extends boolean = true> {
         id?: T;
       };
   image?: T;
+  video?: T;
+  countdownDate?: T;
+  countdownLabel?: T;
   order?: T;
   updatedAt?: T;
   createdAt?: T;
